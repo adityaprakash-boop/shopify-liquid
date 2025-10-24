@@ -8,11 +8,15 @@
     },
     "ad_box": {
       "type": "ad"
+    },
+    "shop_collection": {
+      "type": "shop"
     }
   },
   "order": [
     "hero",
     "featured_products",
-    "ad_box"
+    "ad_box",
+    "shop_collection"
   ]
 }

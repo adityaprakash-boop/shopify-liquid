@@ -1,0 +1,101 @@
+<style>
+  .shop-collection {
+    font-family: var(--productfeatured-font);
+    font-size: 0.8rem;
+    padding: 2% 3%;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .shop-now {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    height: auto;
+  }
+
+  .shop-now-cards {
+    position: relative;
+  }
+
+  .shop-now-cards img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .shop-now-button {
+    position: absolute;
+    right: 5%;
+    bottom: 5%;
+    background: white;
+    border: none;
+    font-family: var(--herodesc-font);
+    padding: 0.9rem 1.0rem;
+    border-radius: 0px;
+    cursor: pointer;
+  }
+
+  .shop-now-button:hover {
+    background: transparent;
+    color: white;
+    border: 1px solid white;
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 1024px) {
+    .shop-collection {
+      font-size: 0.7rem;
+      text-align: left;
+    }
+    .shop-now {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .shop-now-button {
+      padding: 0.8rem 1.2rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .shop-collection {
+      font-size: 0.8rem;
+      text-align: center;
+    }
+    .shop-now-button {
+      font-size: 0.75rem;
+      padding: 0.5rem 0.8rem;
+    }
+  }
+</style>
+
+<div class="shop-collection">
+    <h2>SHOP BY COLLECTION</h2>
+</div>
+<div class="shop-now">
+    <div class="shop-now-cards">
+        <img src="{{ 'collection-face.jpg' | asset_url }}" alt="Shop Face Collection">
+        <button class="shop-now-button">SHOP FACE</button>
+    </div>
+    <div class="shop-now-cards">
+        <img src="{{ 'collection-skin.jpg' | asset_url }}" alt="Shop Skin Collection">
+        <button class="shop-now-button">SHOP SKIN</button>
+    </div>
+    <div class="shop-now-cards">
+        <img src="{{ 'collection-eyes.jpg' | asset_url }}" alt="Shop Eyes Collection">
+        <button class="shop-now-button">SHOP EYES</button>
+    </div>
+    <div class="shop-now-cards">
+        <img src="{{ 'collection-lips.jpg' | asset_url }}" alt="Shop Lips Collection">
+        <button class="shop-now-button">SHOP LIPS</button>
+    </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Shop By Collection",
+    "presets": [
+      {
+        "name": "Shop By Collection"
+      }
+    ]
+  }
+{% endschema %}

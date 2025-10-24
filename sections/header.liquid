@@ -14,7 +14,26 @@
           <li>
             <a href="{{ link.url }}">{{ link.title }}</a>
 
-            {% comment %} Dropdown menu code can go here later if needed {% endcomment %}
+            {% comment %} This is the dropdown code that builds the sub-menu {% endcomment %}
+            {% if link.links.size > 0 %}
+              <ul class="sub-menu">
+                {% for childlink in link.links %}
+                  <li>
+                    <a href="{{ childlink.url }}">{{ childlink.title }}</a>
+
+                    {% if childlink.links.size > 0 %}
+                      <ul class="sub-sub-menu">
+                        {% for grandchildlink in childlink.links %}
+                          <li>
+                            <a href="{{ grandchildlink.url }}">{{ grandchildlink.title }}</a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
           </li>
         {% endfor %}
       </ul>
@@ -25,12 +44,11 @@
 
   <div class="header-actions">
     <a href="{{ routes.search_url }}" class="header-action-item">
-      <svg xmlns="http://www.w.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
     </a>
     <a href="{{ routes.cart_url }}" class="header-action-item">
-      
-      <span class="cart-count">{{ cart.item_count }}</span>
       Bag
+      <span class="cart-count">{{ cart.item_count }}</span>
     </a>
   </div>
 

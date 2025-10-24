@@ -5,29 +5,45 @@
   --productfeatured-font: "archivo-semi-expanded", sans-serif;
   --productcard-font: "archivo-semi-expanded", sans-serif;
   --herocard-font: "archivo-extra-condensed", sans-serif;
+   --logo-font: "Archivo Black", sans-serif;
 }
 body {
   margin: 0;
   box-sizing: border-box;
 }
+/* --- Header Layout --- */
 .site-header {
-   
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* 3 columns: Left, Center, Right */
   align-items: center;
-  padding: 20px 40px;
+  padding: 25px 40px;
   background-color: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+/* --- Logo Styling (Column 1) --- */
+.header-logo {
+  justify-self: start; /* Aligns this to the left */
 }
 
 .header-logo a {
+  font-family: var(--logo-font);
   font-size: 1.8em;
   font-weight: bold;
   text-decoration: none;
   color: #000000;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
-/* --- Main Navigation Styling (More Specific) --- */
+/* --- Main Navigation (Column 2) --- */
+.header-nav {
+  justify-self: center; /* Aligns this to the center */
+}
+
 .header-nav .main-menu {
+     font-family: var(--herodesc-font);
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,74 +53,48 @@ body {
 }
 
 .header-nav .main-menu > li {
-  position: relative;
   margin: 0 15px;
 }
 
 .header-nav .main-menu > li > a {
+     font-family: var(--herodesc-font);
   text-decoration: none;
   color: #000000;
   padding: 20px 10px;
-  font-size: 1em;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
 }
 
-/* --- Dropdown Mega Menu Styling (More Specific) --- */
-.header-nav .sub-menu {
-  opacity: 0;
-  visibility: hidden;
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #ffffff;
-  padding: 30px 40px;
-  border-radius: 4px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  width: max-content;
+/* --- Right-side Actions (Column 3) --- */
+.header-actions {
+     font-family: var(--herodesc-font);
+  justify-self: end; /* Aligns this to the right */
   display: flex;
-  gap: 60px;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  align-items: center;
+  gap: 20px;
 }
 
-/* --- Show dropdown on hover (More Specific) --- */
-.header-nav .main-menu > li:hover > .sub-menu {
-  opacity: 1;
-  visibility: visible;
+.header-action-item {
+     font-family: var(--herodesc-font);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #000;
+  font-size: 0.8em;
+  text-transform: uppercase;
 }
 
-/* --- Column Styling (Second Level) --- */
-.header-nav .sub-menu > li {
-  list-style: none;
-}
-
-.header-nav .sub-menu > li > a {
+.cart-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+  color: #fff;
+  font-size: 0.75em;
   font-weight: bold;
-  font-size: 1.1em;
-  color: #000000;
-  text-decoration: none;
-  pointer-events: none;
-  margin-bottom: 15px;
-  display: block;
-}
-
-/* --- Column Links (Third Level) --- */
-.header-nav .sub-sub-menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.header-nav .sub-sub-menu li {
-  margin-bottom: 10px;
-}
-
-.header-nav .sub-sub-menu li a {
-  text-decoration: none;
-  color: #333333;
-}
-
-.header-nav .sub-sub-menu li a:hover {
-  text-decoration: underline;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
 }

@@ -1,50 +1,37 @@
-
 <header class="site-header">
-  {% comment %} <div class="header-logo">
-    <a href="{{ routes.root_url }}">{{ shop.name }}</a>
-  </div>  {% endcomment %}
-
-   
+  
+  <div class="header-logo">
+    <a href="{{ routes.root_url }}">JONES ROAD</a>
+  </div>
 
   <nav class="header-nav">
-    
     {% assign menu_handle = 'header-menu' %}
     {% assign menu = linklists[menu_handle] %}
 
     {% if menu.links.size > 0 %}
       <ul class="main-menu">
-       
-
         {% for link in menu.links %}
           <li>
             <a href="{{ link.url }}">{{ link.title }}</a>
 
-            {% if link.links.size > 0 %}
-              <ul class="sub-menu">
-                {% for childlink in link.links %}
-                  <li>
-                    <a href="{{ childlink.url }}">{{ childlink.title }}</a>
-
-                    {% if childlink.links.size > 0 %}
-                      <ul class="sub-sub-menu">
-                        {% for grandchildlink in childlink.links %}
-                          <li>
-                            <a href="{{ grandchildlink.url }}">{{ grandchildlink.title }}</a>
-                          </li>
-                        {% endfor %}
-                      </ul>
-                    {% endif %}
-                  </li>
-                {% endfor %}
-              </ul>
-            {% endif %}
+            {% comment %} Dropdown menu code can go here later if needed {% endcomment %}
           </li>
         {% endfor %}
       </ul>
-       
     {% else %}
-      <p>No menu items found in “haeder-menu”.</p>
+      <p>No menu items found. Please check your menu handle in Shopify Admin > Navigation.</p>
     {% endif %}
-   
   </nav>
+
+  <div class="header-actions">
+    <a href="{{ routes.search_url }}" class="header-action-item">
+      <svg xmlns="http://www.w.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    </a>
+    <a href="{{ routes.cart_url }}" class="header-action-item">
+      
+      <span class="cart-count">{{ cart.item_count }}</span>
+      Bag
+    </a>
+  </div>
+
 </header>

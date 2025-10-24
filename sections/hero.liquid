@@ -1,0 +1,179 @@
+{% comment %}
+  This <style> block contains the EXACT CSS for the hero section
+  that you provided.
+{% endcomment %}
+<style>
+  :root {
+    --heroheading-font: 'Libre Bodoni', serif;
+    --herodesc-font: "Zalando Sans Expanded", sans-serif;
+  }
+
+  .hero-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .hero-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .hero-container-image,
+  .hero-container-image-mobile {
+    width: 100%;
+    height: auto;
+  }~
+
+  .hero-container-image-mobile {
+    display: none;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 15%;
+    left: 5%;
+    gap: 12px;
+    width: 45%;
+  }
+
+  .hero-content-heading {
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+    gap: 10px;
+  }
+
+  .hero-content h1 {
+    font-family: var(--heroheading-font);
+    -webkit-font-smoothing: antialiased;
+    font-size: 2.7rem;
+    line-height: 1.2;
+    margin: 0;
+    background: white;
+    width: fit-content;
+    padding: 0.3rem 0.8rem;
+  }
+
+  .hero-content-desc {
+    font-family: var(--herodesc-font);
+    font-size: 1rem;
+    line-height: 1.8rem;
+    letter-spacing: 0.5px;
+    color: black;
+    max-width: 70%;
+  }
+
+  .hero-content button {
+    background: black;
+    color: white;
+    border: none;
+    padding: 0.6rem 2rem;
+    font-family: var(--herodesc-font);
+    cursor: pointer;
+  }
+
+  .hero-content button:hover {
+    background: white;
+    color: black;
+    border: 1px solid black;
+  }
+
+  /* Media Queries from your file */
+  @media (max-width: 1024px) {
+    .hero-content h1 {
+      font-size: 2.2rem;
+      padding: 0.4rem 0.8rem;
+    }
+
+    .hero-content-desc {
+      font-size: 1rem;
+      max-width: 100%;
+      line-height: 1.6;
+    }
+
+    .hero-content button {
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-container-image {
+      display: none;
+    }
+
+    .hero-container-image-mobile {
+      display: block;
+    }
+
+    .hero-container {
+      height: auto;
+    }
+
+    .hero-content {
+      top: 60%;
+      left: 5%;
+      width: 90%;
+      gap: 10px;
+    }
+
+    .hero-content h1 {
+      font-size: 1.7rem;
+      padding: 0.4rem 0.8rem;
+    }
+
+    .hero-content-desc {
+      font-size: 0.9rem;
+      color: white;
+      line-height: 1.6rem;
+    }
+
+    .hero-content button {
+      background: white;
+      color: black;
+      font-size: 0.9rem;
+    }
+  }
+</style>
+
+{% comment %}
+  This is the exact HTML structure for the hero section.
+  The image src is updated to use the Shopify 'asset_url' filter.
+{% endcomment %}
+<div class="hero-container">
+  <div class="hero-container-image">
+    <img src="{{ 'hero-desktop.png' | asset_url }}" alt="">
+  </div>
+  
+  <div class="hero-container-image-mobile">
+    <img src="{{ 'hero-mobile.jpg' | asset_url }}" alt="">
+  </div>
+  
+  <div class="hero-content">
+    <div class="hero-content-heading">
+      <h1 class="hero-content-heading-first">Love Your</h1>
+      <h1 class="hero-content-heading-second">Snowboard Again</h1>
+    </div>
+    <div class="hero-content-desc">
+      <p>Meet the NEW Classic Snowboard – a fresh and modern take on the timeless ride.</p>
+    </div>
+    <div class="hero-content-button">
+      <button>SHOP NOW</button>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Hero Section",
+    "presets": [
+      {
+        "name": "Hero Section"
+      }
+    ]
+  }
+{% endschema %}

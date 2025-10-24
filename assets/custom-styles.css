@@ -1,3 +1,108 @@
+/* --- Header Layout --- */
+:root {
+  --heroheading-font: 'Libre Bodoni', serif;
+  --herodesc-font: "Zalando Sans Expanded", sans-serif;
+  --productfeatured-font: "archivo-semi-expanded", sans-serif;
+  --productcard-font: "archivo-semi-expanded", sans-serif;
+}
+body {
+  margin: 0;
+  box-sizing: border-box;
+}
 .site-header {
-  background-color: red;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: #ffffff;
+}
+
+.header-logo a {
+  font-size: 1.8em;
+  font-weight: bold;
+  text-decoration: none;
+  color: #000000;
+}
+
+/* --- Main Navigation Styling (More Specific) --- */
+.header-nav .main-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header-nav .main-menu > li {
+  position: relative;
+  margin: 0 15px;
+}
+
+.header-nav .main-menu > li > a {
+  text-decoration: none;
+  color: #000000;
+  padding: 20px 10px;
+  font-size: 1em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* --- Dropdown Mega Menu Styling (More Specific) --- */
+.header-nav .sub-menu {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffffff;
+  padding: 30px 40px;
+  border-radius: 4px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  width: max-content;
+  display: flex;
+  gap: 60px;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* --- Show dropdown on hover (More Specific) --- */
+.header-nav .main-menu > li:hover > .sub-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* --- Column Styling (Second Level) --- */
+.header-nav .sub-menu > li {
+  list-style: none;
+}
+
+.header-nav .sub-menu > li > a {
+  font-weight: bold;
+  font-size: 1.1em;
+  color: #000000;
+  text-decoration: none;
+  pointer-events: none;
+  margin-bottom: 15px;
+  display: block;
+}
+
+/* --- Column Links (Third Level) --- */
+.header-nav .sub-sub-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.header-nav .sub-sub-menu li {
+  margin-bottom: 10px;
+}
+
+.header-nav .sub-sub-menu li a {
+  text-decoration: none;
+  color: #333333;
+}
+
+.header-nav .sub-sub-menu li a:hover {
+  text-decoration: underline;
 }

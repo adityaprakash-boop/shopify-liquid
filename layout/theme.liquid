@@ -2,12 +2,16 @@
 <html lang="en">
   <head>
     <title>{{ page_title }}</title>
+
+    <!-- Add Font Links Here -->
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.typekit.net/tou5ezw.css">
     
-    <!-- This line loads your stylesheet -->
     {{ 'custom-styles.css' | asset_url | stylesheet_tag }}
 
     {{ content_for_header }}
-  </head>
+</head>
   <body>
     {% section 'header' %}
     {{ content_for_layout }}

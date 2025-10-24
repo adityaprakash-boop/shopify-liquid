@@ -1,0 +1,181 @@
+<style>
+  .product-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3% 5%;
+  }
+
+  .product-heading-featured {
+    font-family: var(--productfeatured-font);
+    font-size: 0.96rem;
+    letter-spacing: 0.5px;
+  }
+
+  .product-heading-see {
+    font-family: var(--herodesc-font);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+  }
+
+  .product-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    padding: 0 3%;
+    cursor: pointer;
+  }
+
+  .product-card {
+    position: relative;
+    background: white;
+    text-align: center;
+  }
+
+  .product-card img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+  }
+
+  .product-card-h {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 0.75rem;
+    font-family: var(--herodesc-font);
+    color: #f50a99;
+  }
+
+  .product-card-d {
+    font-family: var(--productcard-font);
+    font-size: 0.9rem;
+    margin: 8px 0;
+  }
+
+  .product-card-button {
+    display: none; /* Hidden on desktop as per your original CSS */
+    justify-content: space-between;
+    align-items: center;
+    background: black;
+    color: white;
+    padding: 0.6rem 1rem;
+    font-family: var(--herodesc-font);
+  }
+
+  .product-card-button-text {
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 1024px) {
+    .product-heading {
+      padding: 5% 4%;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .product-heading-featured { font-size: 1rem; }
+    .product-heading-see { font-size: 0.85rem; }
+    .product-cards {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      padding: 0 4%;
+    }
+    .product-card-d { font-size: 0.85rem; }
+    .product-card-button { display: flex; } /* Becomes visible on tablet */
+    .product-card-button-text {
+      font-size: 0.8rem;
+      background: black;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .product-heading-featured { font-size: 0.9rem; }
+    .product-heading-see { font-size: 0.8rem; }
+    .product-cards {
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .product-card-h { font-size: 0.6rem; }
+    .product-card-d { font-size: 0.8rem; }
+    .product-card-button {
+      display: flex; /* Also visible on mobile */
+      justify-content: space-between;
+      padding: 0.5rem 0.8rem;
+    }
+    .product-card-button-text {
+      padding: 6px 10px;
+      font-size: 0.75rem;
+    }
+  }
+</style>
+
+<div class="product-heading">
+    <h2 class="product-heading-featured">FEATURED PRODUCTS</h2>
+    <p class="product-heading-see">SEE ALL</p>
+</div>
+<div class="product-cards">
+    <div class="product-card">
+        <p class="product-card-h">NEW</p>
+        <img src="{{ 'product-bobby-kit.png' | asset_url }}" alt="The Bobby Kit">
+        <p class="product-card-d">THE BOBBY KIT 5.0</p>
+        <div class="product-card-button">
+            <button class="product-card-button-text">SHOP NOW</button>
+            <button class="product-card-button-text">$88</button>
+        </div>
+    </div>
+    <div class="product-card">
+        <p class="product-card-h">NEW</p>
+        <img src="{{ 'product-classic-lip.png' | asset_url }}" alt="The Classic Lip">
+        <p class="product-card-d">THE CLASSIC LIP</p>
+        <div class="product-card-button">
+            <button class="product-card-button-text">SHOP NOW</button>
+            <button class="product-card-button-text">$88</button>
+        </div>
+    </div>
+    <div class="product-card">
+        <p class="product-card-h">BESTSELLER</p>
+        <img src="{{ 'product-miracle-balm.jpg' | asset_url }}" alt="Miracle Balm">
+          <p class="product-card-d">MIRACLE BALM</p>
+          <div class="product-card-button">
+            <button class="product-card-button-text">SHOP NOW</button>
+            <button class="product-card-button-text">$88</button>
+        </div>
+    </div>
+    <div class="product-card">
+        <p class="product-card-h">BESTSELLER</p>
+        <img src="{{ 'product-moisturizer.jpg' | asset_url }}" alt="Just Enough Tinted Moisturizer">
+         <p class="product-card-d">JUST ENOUGH TINTED MOISTURIZER</p>
+         <div class="product-card-button">
+            <button class="product-card-button-text">SHOP NOW</button>
+            <button class="product-card-button-text">$88</button>
+        </div>
+    </div>
+</div>
+
+<script>
+  // This script makes the entire product card clickable
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.addEventListener('click', () => {
+      // You can change this URL later to a real product page
+      window.location.href = '#'; 
+    });
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Featured Products",
+    "presets": [
+      {
+        "name": "Featured Products"
+      }
+    ]
+  }
+{% endschema %}

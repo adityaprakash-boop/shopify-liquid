@@ -1,9 +1,18 @@
 {
   "sections": {
-    "main": {
-      "type": "hero",
-      "settings": {}
+    "hero": {
+      "type": "hero"
+    },
+    "featured_products": {
+      "type": "featured-product"
+    },
+    "ad_box": {
+      "type": "ad"
     }
   },
-  "order": ["main"]
+  "order": [
+    "hero",
+    "featured_products",
+    "ad_box"
+  ]
 }

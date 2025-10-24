@@ -1,0 +1,63 @@
+<style>
+  .ad-box {
+    background: black;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1.6rem 5%;
+    flex-wrap: wrap;
+    margin-top: 30px;
+  }
+
+  .ad-box-img img {
+    max-width: 120px;
+    height: auto;
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 1024px) {
+    .ad-box {
+      margin-top: 20px;
+      padding: 1.5rem 3%;
+      gap: 20px;
+    }
+    .ad-box-img img {
+      max-width: 80px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .ad-box {
+      padding: 1.5rem 2%;
+    }
+    .ad-box-img img {
+      max-width: 60px;
+    }
+  }
+</style>
+
+<div class="ad-box">
+    <div class="ad-box-img">
+         <img src="{{ 'logo-vogue.png' | asset_url }}" alt="Vogue logo">
+    </div>
+    <div class="ad-box-img">
+        <img src="{{ 'logo-wsj.png' | asset_url }}" alt="Wall Street Journal logo">
+    </div>
+    <div class="ad-box-img">
+        <img src="{{ 'logo-fc.png' | asset_url }}" alt="Fast Company logo">
+    </div>
+    <div class="ad-box-img">
+      <img src="{{ 'logo-allure.png' | asset_url }}" alt="Allure logo">
+    </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Ad Box",
+    "presets": [
+      {
+        "name": "Ad Box"
+      }
+    ]
+  }
+{% endschema %}

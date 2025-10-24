@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{{ page_title }}</title>
+    
+    <!-- This line loads your stylesheet -->
+    {{ 'custom-styles.css' | asset_url | stylesheet_tag }}
+
+    {{ content_for_header }}
+  </head>
+  <body>
+    {% section 'header' %}
+    {{ content_for_layout }}
+  </body>
+</html>

@@ -1,0 +1,42 @@
+ <section>
+  <h1>Welcome to store</h1>
+  <p>{{ shop.name }}</p>
+
+  {% assign text = "hi" %}
+  <p>{{ text }}</p>
+
+  {% assign number = 5 | plus: 5 %}
+  <p>{{ number }}</p>
+
+  {% assign array_names = "Adi,Mike,Andrew,Michale" %}
+  {% assign array = array_names | split: ',' %}
+
+  <ul>
+    {% for name in array %}
+      {% if name.size < 4 %}
+        <li>small name {{ name }}</li>
+      {% else %}
+        <li>larger name {{ name }}</li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+
+  {% assign collection = collections['Nike'] %}
+  {% if collection %}
+    <p>{{ collection.title }}</p>
+  {% else %}
+    <p>No collection named “Nike” found.</p>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Collections",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Collections"
+    }
+  ]
+}
+{% endschema %} 

@@ -1,0 +1,42 @@
+<header class="site-header">
+  <div class="header-logo">
+    <a href="{{ routes.root_url }}">{{ shop.name }}</a>
+  </div> 
+
+  <nav class="header-nav">
+    {% assign menu_handle = 'header-menu' %}
+    {% assign menu = linklists[menu_handle] %}
+
+    {% if menu.links.size > 0 %}
+      <ul class="main-menu">
+        {% for link in menu.links %}
+          <li>
+            <a href="{{ link.url }}">{{ link.title }}</a>
+
+            {% if link.links.size > 0 %}
+              <ul class="sub-menu">
+                {% for childlink in link.links %}
+                  <li>
+                    <a href="{{ childlink.url }}">{{ childlink.title }}</a>
+
+                    {% if childlink.links.size > 0 %}
+                      <ul class="sub-sub-menu">
+                        {% for grandchildlink in childlink.links %}
+                          <li>
+                            <a href="{{ grandchildlink.url }}">{{ grandchildlink.title }}</a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No menu items found in “haeder-menu”.</p>
+    {% endif %}
+  </nav>
+</header>

@@ -1,0 +1,209 @@
+<style>
+  .cart-page-container {
+    
+    padding: 0 20px;
+    font-family: var(--learn-font);
+  }
+  .cart{
+display: flex;
+gap: 1rem;
+}
+
+  .cart-page-container h1 {
+    font-family: var(--logo-font);
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  /* Cart Header (Product / Total) */
+  .cart-header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+        padding: 1rem 2rem;
+    margin-bottom: 20px;
+    
+    {% comment %} font-family: var(--logo-font); {% endcomment %}
+    font-size: 1.2rem;
+  }
+
+  /* Individual Cart Item Row */
+  .cart-item {
+    display: flex;
+    {% comment %} grid-template-columns: 100px 1fr auto; {% endcomment %}
+    gap: 20px;
+    justify-content: space-between;
+   
+    padding: 20px 0;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .cart-item-image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 8px;
+    border: 1px solid #e5e5e5;
+  }
+  
+  .cart-item-info {
+    
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .cart-item-info a {
+    text-decoration: none;
+    color: #000;
+    font-size: 1.1rem;
+  }
+  .cart-item-price .original-price {
+    text-decoration: line-through;
+    color: #888;
+    margin-left: 8px;
+  }
+
+  /* Quantity Selector */
+  .quantity-selector {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    width: fit-content;
+  }
+  .quantity-selector a,
+  .quantity-selector .quantity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    text-decoration: none;
+    color: #000;
+  }
+
+
+  /* Footer Section */
+  .cart-footer {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  
+  .cart-total {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  .cart-total .price {
+    font-size: 1.1rem;
+    margin-left: 15px;
+  }
+  
+  .cart-actions {
+    display: flex;
+    gap: 15px;
+  }
+  .cart-actions .button {
+    height: 45px;
+    padding: 0 30px;
+    font-family: var(--herodesc-font);
+    font-size: 1rem;
+    text-decoration: none;
+    border-radius: .25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .button--secondary {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000;
+  }
+  .button--primary {
+    background-color: #000;
+    color: #fff;
+    border: 1px solid #000;
+  }
+  
+  /* Empty Cart Message */
+  .cart-empty {
+    text-align: center;
+    padding: 50px 0;
+  }
+  .price{
+    font-family: var(--learn-font);
+    font-weight: 300;
+    font-size: 1.2rem;
+
+}
+</style>
+
+<div class="cart-page-container">
+  {% if cart.item_count > 0 %}
+    <div class="cart-header">
+      <span>Product</span>
+      <span>Total</span>
+    </div>
+
+    <div class="cart-items">
+      {% for item in cart.items %}
+        <div class="cart-item">
+            <div class="cart">
+              <div class="cart-item-image">
+            <a href="{{ item.url }}">
+              <img src="{{ item.image | image_url: width: 100 }}" alt="{{ item.image.alt | escape }}">
+            </a>
+          </div>
+          
+          <div class="cart-item-info">
+            <a href="{{ item.url }}">{{ item.product.title }}</a>
+            <div class="cart-item-price">
+              <span>{{ item.final_price | money }}</span>
+              {% if item.original_price != item.final_price %}
+                <span class="original-price">{{ item.original_price | money }}</span>
+              {% endif %}
+            </div>
+            <div class="quantity-selector">
+              <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | minus: 1 }}">-</a>
+              <span class="quantity">{{ item.quantity }}</span>
+              <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | plus: 1 }}">+</a>
+            </div>
+          </div>
+            </div>
+          
+          
+          <div class="cart-item-total">
+            {{ item.final_line_price | money }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Cart Total</span>
+        <span class="price"> {{ cart.total_price | money }}</span>
+      </div>
+      <div class="cart-actions">
+        <a href="{{ routes.cart_clear_url }}" class="button button--secondary">Clear Cart</a>
+        <form action="{{ routes.cart_url }}" method="post">
+          <button type="submit" name="checkout" class="button button--primary">Checkout</button>
+        </form>
+      </div>
+    </div>
+
+  {% else %}
+    <div class="cart-empty">
+      <h1>Your cart is empty</h1>
+      <a href="{{ routes.all_products_collection_url }}" class="button button--primary">Continue shopping</a>
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Main Cart Page",
+  "settings": []
+}
+{% endschema %}

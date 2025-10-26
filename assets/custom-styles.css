@@ -6,10 +6,12 @@
   --productcard-font: "archivo-semi-expanded", sans-serif;
   --herocard-font: "archivo-extra-condensed", sans-serif;
    --logo-font: "Archivo Black", sans-serif;
+  --learn-font : 'Zalando Sans Expanded', sans-serif;
 }
 body {
   margin: 0;
   box-sizing: border-box;
+  font-family: var(--herodesc-font);
 }
 /* --- Header Layout --- */
 .site-header {

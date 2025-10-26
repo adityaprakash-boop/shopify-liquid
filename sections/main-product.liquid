@@ -1,0 +1,332 @@
+<style>
+
+  .product-page-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    padding: 2rem;
+    margin: auto;
+    font-family: var(--herodesc-font);
+  }
+ 
+
+
+  /* --- Left Column: Image Gallery --- */
+  .product-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .product-main-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+  .product-thumbnails {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  .product-thumbnails img {
+    width: 100%;
+    height: auto;
+  
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+  .product-thumbnails img:hover,
+  .product-thumbnails img.active {
+    border-color: #000;
+  }
+
+  /* --- Right Column: Product Info --- */
+  .product-info {
+    display: flex;
+    flex-direction: column;
+  }
+  .product-info h1 {
+    font-family: var(--logo-font);
+    font-size: 2rem;
+    margin: 0 0 10px 0;
+  }
+
+  /* --- Reviews --- */
+  .product-reviews {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 25px;
+    font-size: 0.9rem;
+    
+  }
+
+  /* --- Product Form & Button --- */
+  /* --- Product Form & Button --- */
+  .product-form-container {
+    margin-bottom: 25px;
+  }
+  .product-form-button {
+    display: flex;
+    width: 100%;
+    /* Add a transition for a smooth color change */
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  .product-form-button button,
+  .product-form-button .price {
+    height: 50px;
+    border: 2px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Add transition here too */
+  }
+  .product-form-button button {
+    flex-grow: 1;
+    background-color: #000;
+    color: #fff;
+    font-family: var(--learn-font);
+    font-size: 1rem;
+    cursor: pointer;
+    border-right: none;
+  }
+  .product-form-button .price {
+    min-width: 120px;
+    font-size: 1.0rem;
+    padding: 0 20px;
+    background-color: #000; /* Explicitly set the default background */
+    color: #fff; /* Explicitly set the default text color */
+  }
+
+  /*
+  ============================================
+      NEW HOVER EFFECT CSS
+  ============================================
+  */
+  .product-form-container:hover .product-form-button button {
+    background-color: #fff;
+    color: #000;
+  }
+
+  .product-form-container:hover .product-form-button .price {
+    background-color: #fff;
+    color: #000;
+  }
+  /* --- Info Snippets --- */
+  .info-snippets {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+  }
+  .info-snippet {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .info-snippet svg {
+    flex-shrink: 0;
+  }
+
+  /* --- Accordions --- */
+  .product-accordions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 30px;
+    font-family: var(--learn-font);
+    
+    
+  }
+  .product-accordions summary{
+     font-family: var(--learn-font);
+     font-weight: 100;
+
+}
+
+  .product-accordions details {
+    border-bottom: 1px solid black;
+    padding-bottom: 10px;
+  }
+  .product-accordions summary {
+    font-family: var(--logo-font);
+    font-size: 1.2rem;
+    padding-bottom: 10px;
+    cursor: pointer;
+    list-style: none; /* Hide default arrow */
+  }
+  .product-accordions summary::-webkit-details-marker { display: none; } /* Hide default arrow */
+  .accordion-content {
+    padding-top: 10px;
+    line-height: 1.6;
+  }
+
+  /* --- Created By --- */
+  {% comment %} .created-by {
+    margin-top: auto; /* Pushes to the bottom */
+  } {% endcomment %}
+  .created-by h5 {
+    font-family: var(--logo-font);
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+  }
+  .creator-profiles {
+    position: relative;
+    margin-top: 15px;
+    display: flex;
+    gap: 20px;
+  }
+  .creator-profile {
+    
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  .creator-profile img {
+   
+    width: 100px;
+    height: 100px;
+    align: center;
+    border-radius: 8px;
+
+    
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+  * {
+    box-sizing: border-box;
+    font-family: var(--learn-font);
+}
+h3{
+    font-family: var(--learn-font);
+    font-weight: 400;
+    margin: 0;
+    font-size: 1.2rem;
+
+
+}
+h2{
+font-family: var(--learn-font);
+    font-weight: 800;
+    margin: 0;
+}
+
+  /* --- Responsive for Mobile --- */
+  @media (max-width: 768px) {
+    .product-page-container {
+      grid-template-columns: 1fr;
+      padding: 20px;
+      gap: 30px;
+    }
+  }
+</style>
+
+<div class="product-page-container">
+  
+  <div class="product-gallery">
+    <div class="product-main-image">
+      <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.featured_image.alt | escape }}">
+    </div>
+    <div class="product-thumbnails">
+      {% for media in product.media %}
+        <img 
+          src="{{ media | image_url: width: 150 }}" 
+          alt="{{ media.alt | escape }}" 
+          data-full-src="{{ media | image_url: width: 800 }}">
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="product-info">
+    <h2>{{ product.title }}</h2>
+    
+    <div class="product-reviews">
+      <span>5.0 out of 5.0 (76 Reviews)</span>
+    </div>
+
+    <div class="product-form-container">
+      {% form 'product', product %}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        <div class="product-form-button">
+          <button type="submit">ADD TO CART</button>
+          <div class="price">{{ product.price | money }}</div>
+        </div>
+      {% endform %}
+    </div>
+
+    <div class="info-snippets">
+      <div class="info-snippet">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="currentColor"></path><path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z" fill="currentColor"></path></svg>
+        <span>Pay over time for orders over $35.00</span>
+      </div>
+      <div class="info-snippet">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h3.5zM18 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" fill="currentColor"></path></svg>
+        <span>Free shipping on US orders over $85</span>
+      </div>
+      <div class="info-snippet">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" fill="currentColor"></path></svg>
+        <span>Free & Easy Returns</span>
+      </div>
+    </div>
+
+    <div class="product-accordions">
+      <details>
+        <summary><h3>What type of terrain is this board best for?</h3></summary>
+        <div class="accordion-content">
+          It's ideal for all-mountain riders who want stability and speed.
+        </div>
+      </details>
+      <details>
+        <summary><h3>Is this board suitable for beginners?</h3></summary>
+        <div class="accordion-content">
+          Yes, its forgiving flex and stable design make it a great choice for riders who are just starting out.
+        </div>
+      </details>
+    </div>
+    
+    <div class="created-by">
+      <h3>Created by</h3>
+      <div class="creator-profiles">
+        <div class="creator-profile">
+          <img src="{{ 'creator-jordan.jpg' | asset_url }}" alt="Michael Jordan">
+          <span>Michael Jordan</span>
+        </div>
+        <div class="creator-profile">
+          <img src="{{ 'creator-kanye.jpg' | asset_url }}" alt="Kanye West">
+          <span>Kanye West</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const mainImage = document.querySelector('.product-main-image img');
+    const thumbnails = document.querySelectorAll('.product-thumbnails img');
+
+    thumbnails.forEach(thumbnail => {
+      thumbnail.addEventListener('click', function() {
+        // Change main image source
+        mainImage.src = this.dataset.fullSrc;
+
+        // Update active state on thumbnails
+        thumbnails.forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    // Set the first thumbnail as active initially
+    if (thumbnails.length > 0) {
+      thumbnails[0].classList.add('active');
+    }
+  });
+</script>
+
+
+{% schema %}
+{
+  "name": "Main Product Page",
+  "settings": []
+}
+{% endschema %}

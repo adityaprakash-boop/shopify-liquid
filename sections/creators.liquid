@@ -45,6 +45,7 @@
 
 <div class="creators-container">
   {% assign creators = shop.metaobjects.creators.values %}
+  <h1>{{ creators }} </h1>
 
   {% if creators.size > 0 %}
     {% for creator in creators %}

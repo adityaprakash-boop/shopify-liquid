@@ -1,0 +1,12 @@
+
+{
+  "sections": {
+    "main": {
+      "type": "creators",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,0 +1,99 @@
+<style>
+  .creators-container {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+  }
+  .creator-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .creator-image {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+  }
+  .creator-name {
+    font-size: 1.8rem;
+    font-family: var(--logo-font);
+    margin-bottom: 15px;
+  }
+  .creator-products {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .creator-product {
+    text-align: center;
+    width: 150px;
+  }
+  .creator-product img {
+    width: 150px;
+    border-radius: 8px;
+  }
+  .creator-product-title {
+    margin-top: 8px;
+    font-size: 0.95rem;
+  }
+</style>
+
+<div class="creators-container">
+  {% assign creators = shop.metaobjects.creators.values %}
+
+  {% if creators.size > 0 %}
+    {% for creator in creators %}
+      <div class="creator-card">
+        
+        {% comment %} CORRECTED: Use 'creator.photo' instead of 'creator.image' {% endcomment %}
+        {% if creator.photo.value %}
+          <img 
+            class="creator-image" 
+            src="{{ creator.photo.value | image_url: width: 440 }}" 
+            alt="{{ creator.name | escape }}"
+            width="220"
+            height="220">
+        {% endif %}
+        
+        <h2 class="creator-name">{{ creator.name }}</h2>
+
+        {% comment %} CORRECTED: Use 'creator.products_created' instead of 'creator.product_list' {% endcomment %}
+        {% if creator.products_created.value %}
+          <div class="creator-products">
+            {% for product in creator.products_created.value %}
+              <div class="creator-product">
+                <a href="{{ product.url }}">
+                  <img 
+                    src="{{ product.featured_image | image_url: width: 300 }}" 
+                    alt="{{ product.title | escape }}"
+                    width="150"
+                    height="{{ 150 | divided_by: product.featured_image.aspect_ratio | round }}">
+                </a>
+                <div class="creator-product-title">{{ product.title }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No creators found.</p>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Creators Section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Creators Section"
+    }
+  ]
+}
+{% endschema %}

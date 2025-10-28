@@ -1,0 +1,10 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-custom-layout"
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

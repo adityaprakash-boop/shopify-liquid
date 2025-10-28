@@ -1,0 +1,94 @@
+<style>
+  .page-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+  .page-title {
+    font-family: var(--logo-font);
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .page-content {
+    font-family: var(--herodesc-font);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 40px; /* Added space before metafields */
+  }
+
+  /* --- Styles for your custom Metafields --- */
+  .custom-metafields-wrapper {
+    border-top: 2px solid #f0f0f0;
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  .metafield-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  .metafield-text-input {
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+</style>
+
+<div class="page-container">
+  <h1 class="page-title">{{ page.title }}</h1>
+  
+  {% comment %} This is the standard content from the text editor {% endcomment %}
+  <div class="page-content">
+    {{ page.content }}
+  </div>
+
+  <div class="custom-metafields-wrapper">
+    {% comment %}
+      ============================================
+          1. RENDER THE "TEXT INPUT" METAFIELD
+      ============================================
+    {% endcomment %}
+    {%- if page.metafields.custom.text_input.value != blank -%}
+      <p class="metafield-text-input">{{ page.metafields.custom.text_input.value }}</p>
+    {%- endif -%}
+
+    {% comment %}
+      ============================================
+          2. RENDER THE "IMAGE" METAFIELD
+      ============================================
+      - We use '.value' because it is a file type.
+      - We use the 'image_url' filter to get the URL.
+    {% endcomment %}
+    {%- if page.metafields.custom.image.value != blank -%}
+      <img 
+        class="metafield-image"
+        src="{{ page.metafields.custom.image.value | image_url: width: 1000 }}"
+        alt="{{ page.metafields.custom.image.value.alt | escape }}"
+      >
+    {%- endif -%}
+
+    {% comment %}
+      ============================================
+          3. RENDER THE "METAOBJECT" METAFIELD
+      ============================================
+      - We assign the metaobject to a variable for easier use.
+      - You need to replace '.name' and '.bio' with the actual
+        field keys from your metaobject definition.
+    {% endcomment %}
+  
+    
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "Main Page",
+  "settings": []
+}
+{% endschema %}

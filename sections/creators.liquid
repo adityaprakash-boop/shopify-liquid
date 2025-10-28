@@ -51,10 +51,10 @@
       <div class="creator-card">
         
         }
-        {% if creator.Photo.value %}
+        {% if creator.photo.value %}
           <img 
             class="creator-image" 
-            src="{{ creator.Photo.value | image_url: width: 440 }}" 
+            src="{{ creator.photo.value | image_url: width: 440 }}" 
             alt="{{ creator.name | escape }}"
             width="220"
             height="220">

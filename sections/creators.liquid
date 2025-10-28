@@ -47,8 +47,8 @@
   {% assign creators = shop.metaobjects.creators.values %}
   <h1>{{ creators }} </h1>
 
-  {% if creators.size > 0 %}
-    {% for creator in creators %}
+  
+    {% for creator in shop.metaobjects.creators.values %}
       <div class="creator-card">
         
         }
@@ -82,9 +82,9 @@
         {% endif %}
       </div>
     {% endfor %}
-  {% else %}
+
     <p>No creators found.</p>
-  {% endif %}
+  
 </div>
 
 {% schema %}

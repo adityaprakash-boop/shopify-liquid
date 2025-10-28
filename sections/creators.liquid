@@ -45,7 +45,10 @@
 
 <div class="creators-container">
   {% assign creators = shop.metaobjects.creators.values %}
-  <h1>{{ creators }} </h1>
+  {% if template contains 'product' %}
+  
+  {% assign creators = product.metafields.custom.creators  %}
+  {%  endif %}
 
   
     {% for creator in creators %}

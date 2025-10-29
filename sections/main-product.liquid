@@ -386,87 +386,65 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // --- DOM ELEMENT SELECTORS ---
     const mainImage = document.querySelector('.product-main-image img');
     const thumbnails = document.querySelectorAll('.product-thumbnails img');
     const variantIdInput = document.querySelector('.selected-variant-id');
     const priceContainer = document.querySelector('.product-form-button .price');
     const variantOptionGroups = document.querySelectorAll('.product-option');
 
-    // --- LIQUID DATA ---
-    // A JSON representation of all product variants.
     const variantData = {{ product.variants | json }};
-    // The currency code for the shop (e.g., "USD", "EUR").
     const currencyCode = {{ cart.currency.iso_code | json }};
-    // The main product image, used as a fallback.
     const mainProductImage = {{ product.featured_image | image_url: width: 800 | json }};
 
-    // Stop the script if there's no data to work with.
-    if (!variantData || variantData.length === 0) {
-      return;
-    }
+    if (!variantData || variantData.length === 0) return;
 
-    // --- FUNCTIONS ---
-
-    /**
-     * Updates the product form and image based on the currently selected variant options.
-     */
+    // --- Update product info and URL ---
     function updateProductInfo() {
-      // 1. Get the currently selected option values (e.g., ['Ice', 'Small']).
       const selectedOptions = Array.from(variantOptionGroups).map((group) => {
         const activeButton = group.querySelector('.variant-button.active');
         return activeButton ? activeButton.dataset.value : null;
       });
 
-      // 2. Find the variant object that matches the selected options.
-      const matchedVariant = variantData.find((variant) => {
-        // Use .every() to ensure every selected option matches the variant's options.
-        return selectedOptions.every((optionValue, index) => {
-          return variant.options[index] === optionValue;
-        });
-      });
+      const matchedVariant = variantData.find((variant) =>
+        selectedOptions.every((value, index) => variant.options[index] === value)
+      );
 
-      // 3. If a match is found, update the page.
       if (matchedVariant) {
-        // Update the hidden input value for the 'Add to Cart' form.
+        // Update hidden input and price
         variantIdInput.value = matchedVariant.id;
-
-        // Update the price display.
-        // We use Intl.NumberFormat for robust currency formatting.
         const formatter = new Intl.NumberFormat(document.documentElement.lang, {
           style: 'currency',
           currency: currencyCode,
         });
         priceContainer.textContent = formatter.format(matchedVariant.price / 100);
 
-        // Update the main product image if the variant has one.
+        // Update image
         if (matchedVariant.featured_image && matchedVariant.featured_image.src) {
           mainImage.src = matchedVariant.featured_image.src;
+        } else {
+          mainImage.src = mainProductImage;
         }
-      } else {
-        // Optional: Handle the case where the combination is not available.
-        // For example, you could disable the 'Add to Cart' button.
+
+        // ✅ Update URL with variant query parameter without reloading
+        const url = new URL(window.location);
+        url.searchParams.set('variant', matchedVariant.id);
+        window.history.replaceState({}, '', url);
       }
     }
 
-    // --- EVENT LISTENERS ---
-
-    // Add click listeners to all variant buttons.
+    // --- Event Listeners ---
     variantOptionGroups.forEach((group) => {
       const buttons = group.querySelectorAll('.variant-button');
       buttons.forEach((button) => {
         button.addEventListener('click', () => {
-          // When a button is clicked, first update the 'active' class for its group.
           buttons.forEach((b) => b.classList.remove('active'));
           button.classList.add('active');
-
-          // Then, run the main update function.
           updateProductInfo();
         });
       });
     });
 
-    // Add click listeners to thumbnail images.
+    // Thumbnail gallery
     thumbnails.forEach((thumbnail) => {
       thumbnail.addEventListener('click', function () {
         mainImage.src = this.dataset.fullSrc;
@@ -475,12 +453,31 @@
       });
     });
 
-    // Ensure the first thumbnail is active on page load.
-    if (thumbnails.length > 0) {
-      thumbnails[0].classList.add('active');
+    if (thumbnails.length > 0) thumbnails[0].classList.add('active');
+
+    // ✅ On page load — if URL has ?variant=123, auto-select it
+    const urlParams = new URLSearchParams(window.location.search);
+    const variantIdFromUrl = urlParams.get('variant');
+    if (variantIdFromUrl) {
+      const matchedVariant = variantData.find(v => v.id == variantIdFromUrl);
+      if (matchedVariant) {
+        // Set correct active buttons
+        matchedVariant.options.forEach((value, index) => {
+          const group = variantOptionGroups[index];
+          if (group) {
+            const buttons = group.querySelectorAll('.variant-button');
+            buttons.forEach(b => {
+              b.classList.toggle('active', b.dataset.value === value);
+            });
+          }
+        });
+        // Update info
+        updateProductInfo();
+      }
     }
   });
 </script>
+
 
 {% schema %}
 {

@@ -1,6 +1,7 @@
-<script src="{{ 'product-with-js.js' | asset_url }}"></script>
+<script src="{{ 'product-with-js2.js' | asset_url }}"></script>
 <script src="{{ 'shopify-money.js' | asset_url }}"></script>
 <h1>{{ product.title }}</h1>
+<h2>{{ product.title }}</h2>
 <div class="product-price"> From:{{ product.selected_or_first_available_variant.price | money}}</div>
 <img class="product-image" src="{{ product.selected_or_first_available_variant.featured_image | image_url: width: 400}}" style="max-width: 400px" >
 {%  if product.media.size != blank %}

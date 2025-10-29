@@ -1,5 +1,4 @@
 <style>
-
   .product-page-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -8,8 +7,6 @@
     margin: auto;
     font-family: var(--herodesc-font);
   }
- 
-
 
   /* --- Left Column: Image Gallery --- */
   .product-gallery {
@@ -30,7 +27,6 @@
   .product-thumbnails img {
     width: 100%;
     height: auto;
-  
     cursor: pointer;
     border: 1px solid transparent;
   }
@@ -57,10 +53,8 @@
     gap: 5px;
     margin-bottom: 25px;
     font-size: 0.9rem;
-    
   }
 
-  /* --- Product Form & Button --- */
   /* --- Product Form & Button --- */
   .product-form-container {
     margin-bottom: 25px;
@@ -91,17 +85,13 @@
   }
   .product-form-button .price {
     min-width: 120px;
-    font-size: 1.0rem;
+    font-size: 1rem;
     padding: 0 20px;
     background-color: #000; /* Explicitly set the default background */
     color: #fff; /* Explicitly set the default text color */
   }
 
-  /*
-  ============================================
-      NEW HOVER EFFECT CSS
-  ============================================
-  */
+  /* --- NEW HOVER EFFECT CSS --- */
   .product-form-container:hover .product-form-button button {
     background-color: #fff;
     color: #000;
@@ -111,6 +101,7 @@
     background-color: #fff;
     color: #000;
   }
+
   /* --- Info Snippets --- */
   .info-snippets {
     display: flex;
@@ -135,15 +126,11 @@
     gap: 10px;
     margin-bottom: 30px;
     font-family: var(--learn-font);
-    
-    
   }
-  .product-accordions summary{
-     font-family: var(--learn-font);
-     font-weight: 100;
-
-}
-
+  .product-accordions summary {
+    font-family: var(--learn-font);
+    font-weight: 100;
+  }
   .product-accordions details {
     border-bottom: 1px solid black;
     padding-bottom: 10px;
@@ -155,16 +142,15 @@
     cursor: pointer;
     list-style: none; /* Hide default arrow */
   }
-  .product-accordions summary::-webkit-details-marker { display: none; } /* Hide default arrow */
+  .product-accordions summary::-webkit-details-marker {
+    display: none;
+  } /* Hide default arrow */
   .accordion-content {
     padding-top: 10px;
     line-height: 1.6;
   }
 
   /* --- Created By --- */
-  {% comment %} .created-by {
-    margin-top: auto; /* Pushes to the bottom */
-  } {% endcomment %}
   .created-by h5 {
     font-family: var(--logo-font);
     font-size: 1.1rem;
@@ -177,39 +163,73 @@
     gap: 20px;
   }
   .creator-profile {
-    
     display: flex;
     flex-direction: column;
     text-align: center;
   }
   .creator-profile img {
-   
     width: 100px;
     height: 100px;
     align: center;
     border-radius: 8px;
-
-    
     object-fit: cover;
     margin-bottom: 10px;
   }
   * {
     box-sizing: border-box;
     font-family: var(--learn-font);
-}
-h3{
+  }
+  h3 {
     font-family: var(--learn-font);
     font-weight: 400;
     margin: 0;
     font-size: 1.2rem;
-
-
-}
-h2{
-font-family: var(--learn-font);
+  }
+  h2 {
+    font-family: var(--learn-font);
     font-weight: 800;
     margin: 0;
-}
+  }
+  /* --- Variant Buttons --- */
+  .product-option {
+    margin-bottom: 20px;
+  }
+
+  .product-option label {
+    display: block;
+    margin-bottom: 10px;
+    font-family: var(--learn-font);
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .variant-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .variant-button {
+    min-width: 45px;
+    height: 45px;
+    border: 1.5px solid #000;
+    border-radius: 25%;
+    background-color: transparent;
+    color: #000;
+    font-family: var(--learn-font);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .variant-button:hover {
+    background-color: #000;
+    color: #fff;
+  }
+
+  .variant-button.active {
+    background-color: #000;
+    color: #fff;
+  }
 
   /* --- Responsive for Mobile --- */
   @media (max-width: 768px) {
@@ -221,32 +241,66 @@ font-family: var(--learn-font);
   }
 </style>
 
-<div class="product-page-container">
-  
-  <div class="product-gallery">
-    <div class="product-main-image">
-      <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.featured_image.alt | escape }}">
+{% if product and product.variants.size > 0 %}
+  <div class="product-page-container">
+    <div class="product-gallery">
+      <div class="product-main-image">
+        <img
+          src="{{ product.featured_image | image_url: width: 800 }}"
+          alt="{{ product.featured_image.alt | escape }}"
+        >
+      </div>
+      <div class="product-thumbnails">
+        {% for media in product.media %}
+          <img
+            src="{{ media | image_url: width: 150 }}"
+            alt="{{ media.alt | escape }}"
+            data-full-src="{{ media | image_url: width: 800 }}"
+          >
+        {% endfor %}
+      </div>
     </div>
-    <div class="product-thumbnails">
-      {% for media in product.media %}
-        <img 
-          src="{{ media | image_url: width: 150 }}" 
-          alt="{{ media.alt | escape }}" 
-          data-full-src="{{ media | image_url: width: 800 }}">
-      {% endfor %}
-    </div>
-  </div>
+  {% endif %}
 
   <div class="product-info">
     <h2>{{ product.title }}</h2>
-    
+
     <div class="product-reviews">
       <span>5.0 out of 5.0 (76 Reviews)</span>
     </div>
 
     <div class="product-form-container">
       {% form 'product', product %}
-        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        <!-- Variant buttons -->
+        
+        <!-- NEW CODE: Start of the conditional block -->
+        {% unless product.has_only_default_variant %}
+          {% for option in product.options_with_values %}
+            <div class="product-option" data-option-index="{{ forloop.index0 }}">
+              <label>{{ option.name }}</label>
+              <div class="variant-buttons">
+                {% for value in option.values %}
+                  <button
+                    type="button"
+                    class="variant-button{% if option.selected_value == value %} active{% endif %}"
+                    data-value="{{ value }}"
+                  >
+                    {{ value }}
+                  </button>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        {% endunless %}
+        <!-- NEW CODE: End of the conditional block -->
+        
+        <input
+          type="hidden"
+          name="id"
+          value="{{ product.selected_or_first_available_variant.id }}"
+          class="selected-variant-id"
+        >
+
         <div class="product-form-button">
           <button type="submit">ADD TO CART</button>
           <div class="price">{{ product.price | money }}</div>
@@ -256,15 +310,45 @@ font-family: var(--learn-font);
 
     <div class="info-snippets">
       <div class="info-snippet">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="currentColor"></path><path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z" fill="currentColor"></path></svg>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        ><path
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+            fill="currentColor"
+          ></path><path
+            d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"
+            fill="currentColor"
+          ></path></svg>
         <span>Pay over time for orders over $35.00</span>
       </div>
       <div class="info-snippet">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h3.5zM18 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" fill="currentColor"></path></svg>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        ><path
+            d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h3.5zM18 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"
+            fill="currentColor"
+          ></path></svg>
         <span>Free shipping on US orders over $85</span>
       </div>
       <div class="info-snippet">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" fill="currentColor"></path></svg>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        ><path
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"
+            fill="currentColor"
+          ></path></svg>
         <span>Free & Easy Returns</span>
       </div>
     </div>
@@ -283,7 +367,7 @@ font-family: var(--learn-font);
         </div>
       </details>
     </div>
-    
+
     <div class="created-by">
       <h3>Created by</h3>
       <div class="creator-profiles">
@@ -301,28 +385,102 @@ font-family: var(--learn-font);
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
+    // --- DOM ELEMENT SELECTORS ---
     const mainImage = document.querySelector('.product-main-image img');
     const thumbnails = document.querySelectorAll('.product-thumbnails img');
+    const variantIdInput = document.querySelector('.selected-variant-id');
+    const priceContainer = document.querySelector('.product-form-button .price');
+    const variantOptionGroups = document.querySelectorAll('.product-option');
 
-    thumbnails.forEach(thumbnail => {
-      thumbnail.addEventListener('click', function() {
-        // Change main image source
+    // --- LIQUID DATA ---
+    // A JSON representation of all product variants.
+    const variantData = {{ product.variants | json }};
+    // The currency code for the shop (e.g., "USD", "EUR").
+    const currencyCode = {{ cart.currency.iso_code | json }};
+    // The main product image, used as a fallback.
+    const mainProductImage = {{ product.featured_image | image_url: width: 800 | json }};
+
+    // Stop the script if there's no data to work with.
+    if (!variantData || variantData.length === 0) {
+      return;
+    }
+
+    // --- FUNCTIONS ---
+
+    /**
+     * Updates the product form and image based on the currently selected variant options.
+     */
+    function updateProductInfo() {
+      // 1. Get the currently selected option values (e.g., ['Ice', 'Small']).
+      const selectedOptions = Array.from(variantOptionGroups).map((group) => {
+        const activeButton = group.querySelector('.variant-button.active');
+        return activeButton ? activeButton.dataset.value : null;
+      });
+
+      // 2. Find the variant object that matches the selected options.
+      const matchedVariant = variantData.find((variant) => {
+        // Use .every() to ensure every selected option matches the variant's options.
+        return selectedOptions.every((optionValue, index) => {
+          return variant.options[index] === optionValue;
+        });
+      });
+
+      // 3. If a match is found, update the page.
+      if (matchedVariant) {
+        // Update the hidden input value for the 'Add to Cart' form.
+        variantIdInput.value = matchedVariant.id;
+
+        // Update the price display.
+        // We use Intl.NumberFormat for robust currency formatting.
+        const formatter = new Intl.NumberFormat(document.documentElement.lang, {
+          style: 'currency',
+          currency: currencyCode,
+        });
+        priceContainer.textContent = formatter.format(matchedVariant.price / 100);
+
+        // Update the main product image if the variant has one.
+        if (matchedVariant.featured_image && matchedVariant.featured_image.src) {
+          mainImage.src = matchedVariant.featured_image.src;
+        }
+      } else {
+        // Optional: Handle the case where the combination is not available.
+        // For example, you could disable the 'Add to Cart' button.
+      }
+    }
+
+    // --- EVENT LISTENERS ---
+
+    // Add click listeners to all variant buttons.
+    variantOptionGroups.forEach((group) => {
+      const buttons = group.querySelectorAll('.variant-button');
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          // When a button is clicked, first update the 'active' class for its group.
+          buttons.forEach((b) => b.classList.remove('active'));
+          button.classList.add('active');
+
+          // Then, run the main update function.
+          updateProductInfo();
+        });
+      });
+    });
+
+    // Add click listeners to thumbnail images.
+    thumbnails.forEach((thumbnail) => {
+      thumbnail.addEventListener('click', function () {
         mainImage.src = this.dataset.fullSrc;
-
-        // Update active state on thumbnails
-        thumbnails.forEach(t => t.classList.remove('active'));
+        thumbnails.forEach((t) => t.classList.remove('active'));
         this.classList.add('active');
       });
     });
 
-    // Set the first thumbnail as active initially
+    // Ensure the first thumbnail is active on page load.
     if (thumbnails.length > 0) {
       thumbnails[0].classList.add('active');
     }
   });
 </script>
-
 
 {% schema %}
 {

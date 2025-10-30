@@ -15,6 +15,28 @@
     
 {% endif %}
 
+{% form 'product', product %}
+        {% for product_option in product.options_with_values %}
+            <select name="option{{ product_option.position }}">
+                {% for value in product_option.values %}
+                    <option {% if value.selected %}selected{% endif %}>{{ value.name }}</option>
+                {% endfor %}
+            </select>
+        {% endfor %}
+        {% comment %} <select style="display:none" id="current-varient" name="id" data-product-handle="{{ product.handle }}">
+            {% for variant in product.variants %}
+            <option value="{{ variant.id }}" 
+            {% if variant.id == product.selected_or_first_available_variant.id %}selected{% endif %}>{{ variant.title }}</option>
+            {% endfor %}
+        </select> {% endcomment %}
+        <input id="current-varient" type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-product-handle="{{ product.handle }}">
+        {% if product.selected_or_first_available_variant.available %}
+        <button id="atc-button" type="submit"> Add to cart</button>
+        {% else %}
+          <button id="atc-button" disabled type="submit"> Sold out</button>  
+        {% endif %}
+    {% endform %}
+
 {% comment %} {% form 'product', product  %}
     <input type="hidden" name="id" value= "{{ product.selected_or_first_available_variant.id }}">
     <button type="submit"> Add to cart</button>
@@ -22,19 +44,7 @@
 
 {% comment %} the above is for no varient {% endcomment %}
 
-    {% form 'product', product %}
-        <select id="current-varient" name="id" data-product-handle="{{ product.handle }}">
-            {% for variant in product.variants %}
-            <option value="{{ variant.id }}" 
-            {% if variant.id == product.selected_or_first_available_variant.id %}selected{% endif %}>{{ variant.title }}</option>
-            {% endfor %}
-        </select>
-        {% if product.selected_or_first_available_variant.available %}
-        <button id="atc-button" type="submit"> Add to cart</button>
-        {% else %}
-          <button id="atc-button" disabled type="submit"> Sold out</button>  
-        {% endif %}
-    {% endform %}
+    
 
     <script type="application/json" class="product-varient-json">
     {{ product.variants | json }}

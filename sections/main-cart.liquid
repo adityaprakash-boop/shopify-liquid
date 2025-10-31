@@ -1,53 +1,43 @@
 <style>
   .cart-page-container {
-    
     padding: 0 20px;
     font-family: var(--learn-font);
   }
   .cart{
-display: flex;
-gap: 1rem;
-}
-
+    display: flex;
+    gap: 1rem;
+    width: 100%; /* Ensure the cart section takes full width */
+  }
   .cart-page-container h1 {
     font-family: var(--logo-font);
     font-size: 2rem;
     text-align: center;
     margin-bottom: 40px;
   }
-  
-  /* Cart Header (Product / Total) */
   .cart-header {
     display: flex;
     justify-content: space-between;
     padding-bottom: 10px;
-        padding: 1rem 2rem;
+    padding: 1rem 2rem;
     margin-bottom: 20px;
-    
-    {% comment %} font-family: var(--logo-font); {% endcomment %}
     font-size: 1.2rem;
   }
-
-  /* Individual Cart Item Row */
   .cart-item {
     display: flex;
-    {% comment %} grid-template-columns: 100px 1fr auto; {% endcomment %}
     gap: 20px;
     justify-content: space-between;
-   
+    align-items: center; /* Vertically align items */
     padding: 20px 0;
     border-bottom: 1px solid #e5e5e5;
+    transition: opacity 0.3s ease; /* For visual feedback */
   }
-
   .cart-item-image img {
     width: 150px;
     height: 150px;
     border-radius: 8px;
     border: 1px solid #e5e5e5;
   }
-  
   .cart-item-info {
-    
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -62,15 +52,17 @@ gap: 1rem;
     color: #888;
     margin-left: 8px;
   }
-
-  /* Quantity Selector */
+  .variant-title {
+    font-size: 0.9rem;
+    color: #555;
+  }
   .quantity-selector {
     display: flex;
     align-items: center;
     border: 1px solid #ccc;
     width: fit-content;
   }
-  .quantity-selector a,
+  .quantity-selector button,
   .quantity-selector .quantity {
     display: flex;
     align-items: center;
@@ -79,17 +71,17 @@ gap: 1rem;
     height: 35px;
     text-decoration: none;
     color: #000;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
   }
-
-
-  /* Footer Section */
   .cart-footer {
     margin-top: 30px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
   }
-  
   .cart-total {
     font-size: 1.2rem;
     margin-bottom: 20px;
@@ -98,7 +90,6 @@ gap: 1rem;
     font-size: 1.1rem;
     margin-left: 15px;
   }
-  
   .cart-actions {
     display: flex;
     gap: 15px;
@@ -125,8 +116,6 @@ gap: 1rem;
     color: #fff;
     border: 1px solid #000;
   }
-  
-  /* Empty Cart Message */
   .cart-empty {
     text-align: center;
     padding: 50px 0;
@@ -135,12 +124,12 @@ gap: 1rem;
     font-family: var(--learn-font);
     font-weight: 300;
     font-size: 1.2rem;
-
-}
+  }
 </style>
 
 <div class="cart-page-container">
   {% if cart.item_count > 0 %}
+    <h1>Your Cart</h1>
     <div class="cart-header">
       <span>Product</span>
       <span>Total</span>
@@ -148,32 +137,35 @@ gap: 1rem;
 
     <div class="cart-items">
       {% for item in cart.items %}
-        <div class="cart-item">
-            <div class="cart">
-              <div class="cart-item-image">
-            <a href="{{ item.url }}">
-              <img src="{{ item.image | image_url: width: 100 }}" alt="{{ item.image.alt | escape }}">
-            </a>
+        {% comment %} --- CHANGE: Using item.key as the unique ID --- {% endcomment %}
+        <div class="cart-item" data-key="{{ item.key }}">
+          <div class="cart">
+            <div class="cart-item-image">
+              <a href="{{ item.url }}">
+                <img src="{{ item.image | image_url: width: 150 }}" alt="{{ item.image.alt | escape }}">
+              </a>
+            </div>
+            <div class="cart-item-info">
+              <a href="{{ item.url }}">{{ item.product.title }}</a>
+
+              {% unless item.variant.title contains 'Default' %}
+                <span class="variant-title">{{ item.variant.title }}</span>
+              {% endunless %}
+
+              <div class="cart-item-price">
+                <span>{{ item.final_price | money }}</span>
+                {% if item.original_price != item.final_price %}
+                  <span class="original-price">{{ item.original_price | money }}</span>
+                {% endif %}
+              </div>
+              <div class="quantity-selector">
+                <button type="button" class="quantity-btn" data-change="minus">-</button>
+                <span class="quantity">{{ item.quantity }}</span>
+                <button type="button" class="quantity-btn" data-change="plus">+</button>
+              </div>
+            </div>
           </div>
-          
-          <div class="cart-item-info">
-            <a href="{{ item.url }}">{{ item.product.title }}</a>
-            <div class="cart-item-price">
-              <span>{{ item.final_price | money }}</span>
-              {% if item.original_price != item.final_price %}
-                <span class="original-price">{{ item.original_price | money }}</span>
-              {% endif %}
-            </div>
-            <div class="quantity-selector">
-              <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | minus: 1 }}">-</a>
-              <span class="quantity">{{ item.quantity }}</span>
-              <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | plus: 1 }}">+</a>
-            </div>
-          </div>
-            </div>
-          
-          
-          <div class="cart-item-total">
+          <div class="cart-item-total price">
             {{ item.final_line_price | money }}
           </div>
         </div>
@@ -182,8 +174,8 @@ gap: 1rem;
 
     <div class="cart-footer">
       <div class="cart-total">
-        <span>Cart Total</span>
-        <span class="price"> {{ cart.total_price | money }}</span>
+        <span>Subtotal</span>
+        <span class="price" data-cart-total> {{ cart.total_price | money }}</span>
       </div>
       <div class="cart-actions">
         <a href="{{ routes.cart_clear_url }}" class="button button--secondary">Clear Cart</a>
@@ -201,9 +193,115 @@ gap: 1rem;
   {% endif %}
 </div>
 
-{% schema %}
-{
-  "name": "Main Cart Page",
-  "settings": []
-}
-{% endschema %}
+{% comment %} ----- NEW JAVASCRIPT - IDENTIFYING BY ITEM.KEY ----- {% endcomment %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const cartItemsContainer = document.querySelector('.cart-items');
+  if (!cartItemsContainer) return;
+
+  const moneyFormat = {{ shop.money_format | json }};
+
+  cartItemsContainer.addEventListener('click', function(event) {
+    const target = event.target;
+    if (!target.classList.contains('quantity-btn')) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const cartItem = target.closest('.cart-item');
+    // **NEW STRATEGY:** Using item.key, a unique string for each line item.
+    const itemKey = cartItem.dataset.key;
+    const quantitySpan = cartItem.querySelector('.quantity');
+    const currentQuantity = parseInt(quantitySpan.textContent, 10);
+    const change = target.dataset.change;
+    
+    let newQuantity = (change === 'plus') ? currentQuantity + 1 : currentQuantity - 1;
+
+    if (newQuantity < 0 || !itemKey) return;
+
+    // Provide immediate visual feedback
+    cartItem.style.opacity = '0.6';
+    cartItem.querySelectorAll('.quantity-btn').forEach(btn => btn.disabled = true);
+
+    updateCart(itemKey, newQuantity);
+  });
+
+  function updateCart(key, quantity) {
+    fetch('/cart/update.js', { // Using /update.js is often more reliable
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        updates: {
+          [key]: quantity
+        }
+      })
+    })
+    .then(response => {
+        if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); }
+        return response.json();
+    })
+    .then(cart => {
+      if (cart.status) { // Handle specific Shopify API errors
+        throw new Error(cart.description);
+      }
+      
+      if (cart.item_count === 0) {
+        location.reload();
+        return;
+      }
+
+      const cartItemElement = document.querySelector(`.cart-item[data-key="${key}"]`);
+      // Find the updated item in the new cart state by its key
+      const updatedItem = cart.items.find(item => item.key === key);
+
+      if (updatedItem && cartItemElement) {
+        // Item still exists, update its details
+        cartItemElement.querySelector('.quantity').textContent = updatedItem.quantity;
+        cartItemElement.querySelector('.cart-item-total').innerHTML = formatMoney(updatedItem.final_line_price, moneyFormat);
+      } else if (cartItemElement) {
+        // Item was not found, so it must have been removed
+        cartItemElement.remove();
+      }
+
+      // Update the main subtotal
+      document.querySelector('[data-cart-total]').innerHTML = formatMoney(cart.total_price, moneyFormat);
+
+      // Restore the item's appearance and functionality
+      if(cartItemElement) {
+        cartItemElement.style.opacity = '1';
+        cartItemElement.querySelectorAll('.quantity-btn').forEach(btn => btn.disabled = false);
+      }
+    })
+    .catch(error => {
+      console.error('Error updating cart:', error);
+      // Restore the item on failure
+      const failedItem = document.querySelector(`.cart-item[data-key="${key}"]`);
+      if (failedItem) {
+        failedItem.style.opacity = '1';
+        failedItem.querySelectorAll('.quantity-btn').forEach(btn => btn.disabled = false);
+      }
+    });
+  }
+
+  function formatMoney(cents, format) {
+    if (typeof cents !== 'number') { cents = parseInt(cents, 10); }
+    let value = '';
+    const placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
+    const formatString = (format || '${{amount}}');
+
+    function formatWithDelimiters(number, precision = 2, thousands = ',', decimal = '.') {
+      if (isNaN(number) || number == null) { return 0; }
+      number = (number / 100.0).toFixed(precision);
+      let parts = number.split('.');
+      let dollars = parts[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + thousands);
+      return dollars + (parts[1] ? decimal + parts[1] : '');
+    }
+    switch(formatString.match(placeholderRegex)[1]) {
+      case 'amount': value = formatWithDelimiters(cents); break;
+      default: value = formatWithDelimiters(cents);
+    }
+    return formatString.replace(placeholderRegex, value);
+  };
+});
+</script>
